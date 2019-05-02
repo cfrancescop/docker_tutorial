@@ -21,6 +21,9 @@ COPY --from=builder /app /app
 # As we're going to run the executable as an unprivileged user, we can't bind
 # to ports below 1024.
 EXPOSE 8080
-
+ENV DB_USER=root
+ENV DB_PASSWORD=DB_PASSWORD
+ENV DB_HOST=mysql
+ENV DB_NAME=app
 # Run the compiled binary.
 ENTRYPOINT ["/app"]

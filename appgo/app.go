@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -15,10 +16,10 @@ type User struct {
 }
 
 func getConnection() *sql.DB {
-	dbuser := "root"
-	dbpassword := "s3kreee7"
-	dbname := "hrm_test"
-	dbhost := "192.168.50.164"
+	dbuser := os.Getenv("DB_USER")
+	dbpassword := os.Getenv("DB_PASSWORD")
+	dbname := os.Getenv("DB_NAME")
+	dbhost := os.Getenv("DB_HOST")
 	dbstring := fmt.Sprintf("%s:%s@tcp(%s)/%s", dbuser, dbpassword, dbhost, dbname)
 	db, err := sql.Open("mysql", dbstring)
 	if err != nil {
