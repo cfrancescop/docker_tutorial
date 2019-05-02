@@ -12,4 +12,8 @@ public class DemoController {
     public String now(){
         return ZonedDateTime.now().toString();
     }
+    @GetMapping("/greetings")
+    public String greetings(){
+        return "Hello from "+System.getenv("APP_NAME");
+    }
 }
