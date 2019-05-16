@@ -1,6 +1,6 @@
-FROM openjdk:8-alpine as builder
+ARG JAVA_VERSION=8
+FROM openjdk:${JAVA_VERSION}-alpine as builder
 
-RUN mkdir /appjava
 WORKDIR /appjava
 COPY mvnw .
 COPY .mvn .mvn
@@ -14,16 +14,16 @@ ARG BUILD_ARGS=-DskipTests
 
 RUN ./mvnw package ${BUILD_ARGS} && cp target/*.jar app.jar
 
-FROM openjdk:8-alpine
+FROM openjdk:${JAVA_VERSION}-alpine
 
 # Create a group and user
 RUN addgroup -S app && adduser -S app -G app
 
-RUN mkdir -p /opt/app && chown app /opt/app
+# RUN mkdir -p /opt/app && chown app /opt/app
 USER app
 WORKDIR /opt/app
 
-COPY --from=builder /appjava/app.jar ./app.jareex
+COPY --from=builder --chown=app /appjava/app.jar ./app.jar
 
 ARG PORT=8080
 ENV PORT ${PORT}

@@ -1,6 +1,6 @@
-FROM openjdk:8-alpine as builder
+ARG JAVA_VERSION=8
+FROM openjdk:${JAVA_VERSION}-alpine as builder
 
-RUN mkdir /appjava
 WORKDIR /appjava
 COPY mvnw .
 COPY .mvn .mvn
